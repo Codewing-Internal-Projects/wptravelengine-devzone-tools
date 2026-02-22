@@ -45,7 +45,7 @@ class Admin {
 	}
 
 	public function maybe_show_activation_pointer(): void {
-		if ( ! get_transient( 'wpte_devzone_activation_pointer' ) ) {
+		if ( 'wptravelengine-devzone' === ( $_GET['page'] ?? '' ) ) {
 			return;
 		}
 
@@ -53,11 +53,8 @@ class Admin {
 		$dismissed  = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
 		if ( \in_array( $pointer_id, $dismissed, true ) ) {
-			delete_transient( 'wpte_devzone_activation_pointer' );
 			return;
 		}
-
-		delete_transient( 'wpte_devzone_activation_pointer' );
 
 		wp_add_inline_script(
 			'common',

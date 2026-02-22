@@ -16,10 +16,6 @@ define( 'WPTE_DEVZONE_VERSION', '1.0.0' );
 define( 'WPTE_DEVZONE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPTE_DEVZONE_URL', plugin_dir_url( __FILE__ ) );
 
-register_activation_hook( __FILE__, function () {
-	set_transient( 'wpte_devzone_activation_pointer', true, DAY_IN_SECONDS );
-} );
-
 require_once WPTE_DEVZONE_DIR . 'includes/class-plugin.php';
 \WPTravelEngineDevZone\Plugin::register_autoloader();
 
