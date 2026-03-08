@@ -732,11 +732,14 @@
 				value,
 			};
 		} else {
-			const metaKey = row.dataset.metaKey || ( row.dataset.path ? row.dataset.path.split( '.' )[ 0 ] : '' );
+			const parts   = ( row.dataset.path || '' ).split( '.' );
+			const metaKey = parts[ 0 ];
+			const keyPath = parts.slice( 1 ).join( '.' );
 			body = {
 				action:   'wpte_devzone_save_meta',
 				post_id:  currentPostId,
 				meta_key: metaKey,
+				key_path: keyPath,
 				value,
 			};
 		}

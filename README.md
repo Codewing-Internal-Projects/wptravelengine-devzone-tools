@@ -1,41 +1,41 @@
 # WP Travel Engine — Dev Zone
 
-A developer-only companion plugin for WP Travel Engine. Provides a visual database inspector and data editor directly in WP Admin — useful for diagnosing and fixing data issues without leaving the browser.
+> **For development and debugging purposes only. Do not use on production sites.**
 
-> **Not for production sites.** Keep this plugin active only in local/staging environments.
+A visual database inspector for [WP Travel Engine](https://wptravelengine.com/) that lets you diagnose and inspect trip, booking, payment, and customer data directly from WP Admin — without touching phpMyAdmin or writing raw SQL queries.
 
----
+## Intent
+
+This plugin is being developed as an internal developer tool to support the WP Travel Engine team during active development and debugging. The goal is to provide a quick, centralized admin interface to inspect and search database records related to WP Travel Engine — covering trips, bookings, payments, customers, and raw DB queries — all without leaving the WordPress dashboard.
 
 ## Requirements
 
-| Requirement | Version |
-|---|---|
-| PHP | 7.4+ |
-| WordPress | 6.9+ |
-| WP Travel Engine | any (must be active) |
-
----
+- WordPress 6.9+
+- PHP 8.3+
+- [WP Travel Engine](https://wptravelengine.com/) plugin (active)
 
 ## Installation
 
-Run the following command from the **wp-travel-engine** core repository to compile and sync the plugin assets:
+Since this plugin is not listed on the WordPress plugin directory, install it directly from this repository:
 
-```bash
-yarn grunt devzone
-```
----
+1. Click **Code → Download ZIP** on this page
+2. In your WordPress admin, navigate to **Plugins → Add New → Upload Plugin**
+3. Choose the downloaded `.zip` file and click **Install Now**
+4. Click **Activate Plugin**
+
+Once activated, navigate to **Tools → Dev Zone** in WP Admin.
 
 ## Tabs
 
-| Tab | What it does |
-|---|---|
-| **Overview** | Browse and edit all `wp_travel_engine_*` / `wptravelengine_*` WordPress options. Supports nested array editing via dot-notation paths. |
-| **Trips** | List and inspect `trip` posts. View post fields, meta, and taxonomy terms. Edit meta values and core post fields (`post_title`, `post_status`, `post_date`). |
-| **Bookings** | Same as Trips, for `booking` posts. |
-| **Payments** | Same as Trips, for `wte-payments` posts. |
-| **Customers** | Same as Trips, for `customer` posts. |
-| **Query** | Browse any database table. Select a table, filter by column values, and paginate results. WTE-related tables are listed first. |
+| Tab | Description |
+|-----|-------------|
+| Overview | WP Travel Engine price categories, registered taxonomies with their terms, and all WTE-related options stored in the database |
+| Trips | Browse and inspect all trip post data |
+| Bookings | View booking records and their metadata |
+| Payments | Inspect payment entries linked to bookings |
+| Customers | View customer records |
+| Query | Run keyword searches directly against the database |
 
-All tabs also include an **Unserialize** tool that decodes PHP-serialized, JSON, base64, and URL-encoded data — useful for inspecting raw meta values.
+## Warning
 
----
+This plugin is **solely intended for development and debugging use**. It exposes raw database content in the WP Admin and is not hardened for use on public or production environments. Keep it deactivated or uninstalled on any live site.

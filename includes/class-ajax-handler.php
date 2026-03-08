@@ -2,6 +2,8 @@
 
 namespace WPTravelEngineDevZone;
 
+use WPTravelEngine\Utilities\ArrayUtility;
+
 defined( 'ABSPATH' ) || exit;
 
 class AjaxHandler {
@@ -175,8 +177,10 @@ class AjaxHandler {
 		$old_value = $current;
 
 		if ( $key_path ) {
-			$new_value = $this->cast_value( $new_value, $this->get_nested_value( $current, $key_path ) );
-			$this->set_nested_value( $current, $key_path, $new_value );
+			$arr       = ArrayUtility::make( (array) $current );
+			$new_value = $this->cast_value( $new_value, $arr->get( $key_path ) );
+			$arr->set( $key_path, $new_value );
+			$current   = $arr->value();
 		} else {
 			$new_value = $this->cast_value( $new_value, $current );
 			$current   = $new_value;
@@ -291,22 +295,36 @@ class AjaxHandler {
 
 		$post_id  = intval( $_POST['post_id'] ?? 0 );
 		$meta_key = sanitize_text_field( wp_unslash( $_POST['meta_key'] ?? '' ) );
+		$key_path = sanitize_text_field( wp_unslash( $_POST['key_path'] ?? '' ) );
 		$value    = wp_unslash( $_POST['value'] ?? '' );
 
 		if ( ! $post_id || ! $meta_key ) {
 			wp_send_json_error( [ 'message' => 'Missing post_id or meta_key' ] );
 		}
-
 		if ( ! $this->is_meta_key_writable( $meta_key ) ) {
-			wp_send_json_error( [ 'message' => "Meta key '{$meta_key}' is protected and cannot be edited." ], 403 );
+			wp_send_json_error( [ 'message' => "Meta key '{$meta_key}' is protected." ], 403 );
 		}
 
-		$old_value = get_post_meta( $post_id, $meta_key, true );
-		$new_value = $this->cast_value( $value, $old_value );
+		$current   = get_post_meta( $post_id, $meta_key, true );
+		$old_value = $current;
 
-		$this->log_change( "post_meta:{$post_id}.{$meta_key}", $old_value, $new_value );
+		if ( $key_path ) {
+			$arr       = ArrayUtility::make( (array) $current );
+			$new_value = $this->cast_value( $value, $arr->get( $key_path ) );
+			$arr->set( $key_path, $new_value );
+			$current   = $arr->value();
+		} else {
+			$new_value = $this->cast_value( $value, $current );
+			$current   = $new_value;
+		}
 
-		update_post_meta( $post_id, $meta_key, $new_value );
+		$this->log_change(
+			"post_meta:{$post_id}.{$meta_key}" . ( $key_path ? ".{$key_path}" : '' ),
+			$old_value,
+			$new_value
+		);
+
+		update_post_meta( $post_id, $meta_key, $current );
 		wp_send_json_success( [ 'saved' => true ] );
 	}
 
@@ -549,41 +567,6 @@ class AjaxHandler {
 			return json_last_error() === JSON_ERROR_NONE ? $decoded : $new;
 		}
 		return sanitize_textarea_field( $new );
-	}
-
-	/**
-	 * Get a nested value from an array by dot-notation path.
-	 */
-	private function get_nested_value( $arr, string $path ): mixed {
-		$keys = explode( '.', $path );
-		$cur  = $arr;
-		foreach ( $keys as $key ) {
-			if ( ! is_array( $cur ) || ! array_key_exists( $key, $cur ) ) {
-				return null;
-			}
-			$cur = $cur[ $key ];
-		}
-		return $cur;
-	}
-
-	/**
-	 * Set a nested value in an array by dot-notation path.
-	 */
-	private function set_nested_value( array &$arr, string $path, $value ): void {
-		$keys = explode( '.', $path );
-		$cur  = &$arr;
-		$last = count( $keys ) - 1;
-
-		foreach ( $keys as $i => $key ) {
-			if ( $i === $last ) {
-				$cur[ $key ] = $value;
-				return;
-			}
-			if ( ! isset( $cur[ $key ] ) || ! is_array( $cur[ $key ] ) ) {
-				$cur[ $key ] = [];
-			}
-			$cur = &$cur[ $key ];
-		}
 	}
 
 	/**
