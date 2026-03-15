@@ -134,7 +134,7 @@ export class DomHelper {
 	}
 
 	/** Show the global status note with a message. type: 'info' | 'success' | 'error' | 'cancelled' */
-	static setStatus( msg, type = null, secs = 3 ) {
+	static setStatus( msg, type = null, secs = null ) {
 		const wrap = document.getElementById( 'wte-dbg-status-note' );
 		if ( ! wrap ) return;
 		wrap.querySelector( '.wte-dbg-loader-note' ).textContent = msg;
@@ -142,7 +142,7 @@ export class DomHelper {
 		if ( type ) wrap.classList.add( 'is-status-' + type );
 		wrap.classList.add( 'is-visible' );
 		clearTimeout( DomHelper._statusTimer );
-		DomHelper._statusTimer = setTimeout( () => DomHelper.clearStatus(), secs * 1000 );
+		if ( secs ) DomHelper._statusTimer = setTimeout( () => DomHelper.clearStatus(), secs * 1000 );
 	}
 
 	/** Hide the global status note and reset its type. */
@@ -183,7 +183,7 @@ export class DomHelper {
 		}
 		container.appendChild( wrap );
 
-		if ( msg ) DomHelper.setStatus( msg );
+		if ( msg ) DomHelper.setStatus( msg, 'info' );
 	}
 
 	static formatScalar( value ) {

@@ -8,7 +8,7 @@
    ------------------------------------------------------------------------- */
 .wte-dbg-db-search {
 	display: flex;
-	height: calc( 100vh - 190px );
+	height: calc(100vh - 190px);
 	min-height: 500px;
 	position: relative;
 	overflow: hidden;
@@ -53,7 +53,7 @@
 	justify-content: center;
 }
 
-.wte-dbg-db-search.sidebar-collapsed .wte-dbg-db-tables-header > :not( .wte-dbg-sidebar-toggle ) {
+.wte-dbg-db-search.sidebar-collapsed .wte-dbg-db-tables-header> :not(.wte-dbg-sidebar-toggle) {
 	display: none;
 }
 
@@ -195,17 +195,47 @@
 
 /* Filters */
 .wte-dbg-filters-section {
-	padding: 12px 20px;
-	border-bottom: 1px solid var(--dbg-border-faint);
+	border-bottom: 2px solid var(--dbg-border);
+	border-top: 2px solid var(--dbg-border);
 }
 
 .wte-dbg-filters-label {
-	font-size: 11px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 20px;
+	font-size: 12px;
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 	color: var(--dbg-text-muted);
-	margin-bottom: 8px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.wte-dbg-filters-label:hover {
+	background: var(--dbg-hover-bg);
+}
+
+.wte-dbg-filters-toggle-icon {
+	font-size: 9px;
+	transition: transform 0.15s;
+	display: inline-block;
+}
+
+.wte-dbg-filters-section.is-open .wte-dbg-filters-toggle-icon {
+	transform: rotate(90deg);
+}
+
+.wte-dbg-filters-body {
+	display: none;
+	padding: 10px 20px 14px;
+	background: var(--dbg-surface-alt);
+	border-bottom: 1px solid var(--dbg-border-faint);
+}
+
+.wte-dbg-filters-section.is-open .wte-dbg-filters-body {
+	display: block;
 }
 
 .wte-dbg-filter-rows {
@@ -233,8 +263,13 @@
 	cursor: pointer;
 }
 
-.wte-dbg-filter-col { min-width: 130px; }
-.wte-dbg-filter-op  { min-width: 100px; }
+.wte-dbg-filter-col {
+	min-width: 130px;
+}
+
+.wte-dbg-filter-op {
+	min-width: 100px;
+}
 
 .wte-dbg-filter-val {
 	flex: 1;
@@ -323,6 +358,21 @@
 	padding: 5px 14px;
 }
 
+/* ---- AJAX action indicator — shared by all buttons that fire a request ---- */
+.wte-dbg-run-btn::after,
+.wte-dbg-execute-btn::after,
+.wte-dbg-unser-btn::after {
+	content: '\00A0\26A1';
+	/* non-breaking space + ⚡ */
+	font-size: 12px;
+	opacity: 0.75;
+	display: inline-flex;
+	align-items: center;
+	line-height: 0;
+	position: relative;
+	top: 0.5px;
+}
+
 .wte-dbg-run-btn:hover {
 	background: var(--dbg-accent-dark);
 }
@@ -336,11 +386,21 @@
 }
 
 .wte-dbg-results-summary {
+	display: flex;
+	align-items: center;
+	gap: 12px;
 	padding: 8px 20px;
 	font-size: 12px;
 	color: #50575e;
 	border-bottom: 1px solid var(--dbg-border-faint);
 	background: var(--dbg-surface-alt);
+}
+
+.wte-dbg-pagination {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex-shrink: 0;
 }
 
 .wte-dbg-table-wrap {
@@ -413,7 +473,7 @@
 }
 
 .wte-dbg-unser-resize-handle:hover {
-	background: rgba( 34, 113, 177, 0.25 );
+	background: rgba(34, 113, 177, 0.25);
 }
 
 .wte-dbg-db-search.unser-collapsed .wte-dbg-unser-resize-handle {
@@ -436,13 +496,13 @@
 
 /* Expand direction: body + header items slide in from the right after the sidebar opens. */
 .wte-dbg-unser-body {
-	transform: translateX( 0 );
+	transform: translateX(0);
 	transition: opacity 0.2s ease 0.2s, transform 0.2s ease 0.2s;
 }
 
-.wte-dbg-unser-header > span,
+.wte-dbg-unser-header>span,
 .wte-dbg-unser-header .wte-dbg-unser-maximize {
-	transform: translateX( 0 );
+	transform: translateX(0);
 	transition: opacity 0.15s ease 0.2s, transform 0.15s ease 0.2s;
 }
 
@@ -452,16 +512,16 @@
 	min-width: 32px;
 }
 
-.wte-dbg-db-search.unser-collapsed .wte-dbg-unser-header > :not( .wte-dbg-sidebar-toggle ) {
+.wte-dbg-db-search.unser-collapsed .wte-dbg-unser-header> :not(.wte-dbg-sidebar-toggle) {
 	opacity: 0;
-	transform: translateX( 24px );
+	transform: translateX(24px);
 	pointer-events: none;
 	transition: opacity 0.1s ease, transform 0.1s ease;
 }
 
 .wte-dbg-db-search.unser-collapsed .wte-dbg-unser-body {
 	opacity: 0;
-	transform: translateX( 32px );
+	transform: translateX(32px);
 	pointer-events: none;
 	transition: opacity 0.1s ease, transform 0.1s ease;
 }
@@ -501,7 +561,9 @@
 	flex-shrink: 0;
 }
 
-.wte-dbg-unser-maximize:hover { color: var(--dbg-accent); }
+.wte-dbg-unser-maximize:hover {
+	color: var(--dbg-accent);
+}
 
 .wte-dbg-unser-body {
 	flex: 1;
@@ -563,7 +625,9 @@
 	padding: 5px 14px;
 }
 
-.wte-dbg-unser-btn:hover { background: var(--dbg-accent-dark); }
+.wte-dbg-unser-btn:hover {
+	background: var(--dbg-accent-dark);
+}
 
 .wte-dbg-vardump-btn {
 	background: none;
@@ -634,15 +698,15 @@
 }
 
 /* Nested leaf rows */
-.wte-dbg-unser-children > .wte-dbg-row {
+.wte-dbg-unser-children>.wte-dbg-row {
 	border-radius: 2px;
 	padding-left: 8px;
 }
 
 /* Parent summary (expandable node header) — light blue tint so it reads
    as a container header rather than a peer leaf row */
-.wte-dbg-unser-tree .wte-dbg-node > summary,
-.wte-dbg-unser-children .wte-dbg-node > summary {
+.wte-dbg-unser-tree .wte-dbg-node>summary,
+.wte-dbg-unser-children .wte-dbg-node>summary {
 	background: var(--dbg-active-bg);
 	border-radius: 2px;
 	padding: 4px 8px;
@@ -663,9 +727,21 @@
 }
 
 /* ---- Value type colors (tree view) ---- */
-.wte-dbg-value[data-type="number"]  { color: #b45309; background: #fef3c7; }
-.wte-dbg-value[data-type="boolean"] { color: #6d28d9; background: #ede9fe; }
-.wte-dbg-value[data-type="null"]    { color: var(--dbg-text-dim); background: transparent; font-style: italic; }
+.wte-dbg-value[data-type="number"] {
+	color: #b45309;
+	background: #fef3c7;
+}
+
+.wte-dbg-value[data-type="boolean"] {
+	color: #6d28d9;
+	background: #ede9fe;
+}
+
+.wte-dbg-value[data-type="null"] {
+	color: var(--dbg-text-dim);
+	background: transparent;
+	font-style: italic;
+}
 
 /* ---- Type badges (int / float / bool / string / null) ---- */
 .wte-dbg-type-badge {
@@ -679,11 +755,54 @@
 	line-height: 1.6;
 }
 
-.wte-dbg-type-string { color: #166534; background: #dcfce7; }
-.wte-dbg-type-int    { color: #92400e; background: #fef3c7; }
-.wte-dbg-type-float  { color: #9a3412; background: #fff7ed; }
-.wte-dbg-type-bool   { color: #4c1d95; background: #ede9fe; }
-.wte-dbg-type-null   { color: #6b7280; background: #f3f4f6; font-style: italic; }
+.wte-dbg-type-string {
+	color: #166534;
+	background: #dcfce7;
+}
+
+.wte-dbg-type-int {
+	color: #92400e;
+	background: #fef3c7;
+}
+
+.wte-dbg-type-float {
+	color: #9a3412;
+	background: #fff7ed;
+}
+
+.wte-dbg-type-bool {
+	color: #4c1d95;
+	background: #ede9fe;
+}
+
+.wte-dbg-type-null {
+	color: #6b7280;
+	background: #f3f4f6;
+	font-style: italic;
+}
+
+/* ---- Badge row (format label + expand-all) ---- */
+.wte-dbg-unser-badge-row {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding-left: 8px;
+}
+
+.wte-dbg-expand-all {
+	cursor: pointer;
+	font-size: 25px;
+	height: 21px;
+	align-self: center;
+}
+
+Ø .wte-dbg-unser-badge-row .wte-dbg-count.wte-dbg-unser-format-badge {
+	align-self: center;
+}
+
+.wte-dbg-expand-all:hover {
+	color: var(--dbg-accent);
+}
 
 /* ---- Fallback / unknown format ---- */
 .wte-dbg-unser-unknown-notice {
@@ -725,8 +844,13 @@
 }
 
 @keyframes wte-dbg-unser-expand {
-	from { clip-path: inset( 0 0 0 72% ); }
-	to   { clip-path: inset( 0 ); }
+	from {
+		clip-path: inset(0 0 0 72%);
+	}
+
+	to {
+		clip-path: inset(0);
+	}
 }
 
 /* Restore animation — played when unser-restoring class is present */
@@ -741,13 +865,531 @@
 }
 
 @keyframes wte-dbg-unser-collapse {
-	from { clip-path: inset( 0 ); }
-	to   { clip-path: inset( 0 0 0 72% ); }
+	from {
+		clip-path: inset(0);
+	}
+
+	to {
+		clip-path: inset(0 0 0 72%);
+	}
+}
+
+/* ---- Action tabs & execute buttons — dark mode overrides ---- */
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-action-tab.is-active {
+	background: #2a5080;
+	border-color: #2a5080;
+	color: #a8d0f5;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-execute-add {
+	background: #1e4d7a;
+	color: #a8d0f5;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-execute-add:hover:not(:disabled) {
+	background: #245a8e;
+}
+
+/* ---- Filters — dark mode overrides ---- */
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filters-body {
+	background: #1c1c1c;
+	border-bottom-color: #333;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filter-col,
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filter-op {
+	background: #2a2a2a;
+	border-color: #444;
+	color: var(--dbg-text);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filter-val {
+	background: #2a2a2a;
+	border-color: #444;
+	color: var(--dbg-text);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filter-col:focus,
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filter-op:focus,
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filter-val:focus {
+	border-color: var(--dbg-accent);
+	box-shadow: 0 0 0 1px var(--dbg-accent);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filter-remove {
+	background: #2a2a2a;
+	border-color: #444;
+	color: var(--dbg-text-dim);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-filter-remove:hover {
+	border-color: #d63638;
+	color: #f87171;
+	background: #2d1515;
 }
 
 /* ---- Type badges — dark mode overrides ---- */
-.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-string { color: #86efac; background: #052e16; }
-.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-int    { color: #fcd34d; background: #1c1400; }
-.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-float  { color: #fb923c; background: #1f0d00; }
-.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-bool   { color: #c4b5fd; background: #1a1028; }
-.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-null   { color: #6b7280; background: #1f2937; }
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-string {
+	color: #86efac;
+	background: #052e16;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-int {
+	color: #fcd34d;
+	background: #1c1400;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-float {
+	color: #fb923c;
+	background: #1f0d00;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-bool {
+	color: #c4b5fd;
+	background: #1a1028;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-type-null {
+	color: #6b7280;
+	background: #1f2937;
+}
+
+/* =========================================================================
+   Action section
+   ========================================================================= */
+
+.wte-dbg-action-section {
+	display: none;
+	border-bottom: 2px solid var(--dbg-border);
+}
+
+.wte-dbg-action-section.is-row-visible {
+	display: block;
+	position: sticky;
+	bottom: 0;
+	z-index: 2;
+	max-height: 40vh;
+	overflow-y: auto;
+	background: var(--dbg-surface);
+	border-top: 2px solid var(--dbg-border);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-action-section.is-row-visible {
+	background: #1e1e1e;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+	border-bottom-color: #444;
+}
+
+.wte-dbg-action-label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 20px;
+	font-size: 12px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--dbg-text-muted);
+	cursor: pointer;
+	user-select: none;
+}
+
+.wte-dbg-action-label:hover {
+	background: var(--dbg-hover-bg);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-action-label {
+	background: #1e1e1e;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-action-label:hover {
+	background: #272727;
+}
+
+.wte-dbg-action-toggle-icon {
+	font-size: 9px;
+	transition: transform 0.15s;
+	display: inline-block;
+}
+
+.wte-dbg-action-section.is-open .wte-dbg-action-toggle-icon {
+	transform: rotate(90deg);
+}
+
+.wte-dbg-action-body {
+	display: none;
+	flex-direction: column;
+	gap: 8px;
+	padding: 10px 20px 14px;
+}
+
+.wte-dbg-action-section.is-open .wte-dbg-action-body {
+	display: flex;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-action-body {
+	background: #1a1a1a;
+	border-top: 1px solid #333;
+}
+
+.wte-dbg-action-row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.wte-dbg-action-type-sel {
+	min-width: 100px;
+}
+
+.wte-dbg-action-col {
+	min-width: 130px;
+}
+
+.wte-dbg-action-val {
+	flex: 1;
+	min-width: 120px;
+}
+
+/* Update / Delete tab buttons in the action label */
+.wte-dbg-action-tabs {
+	display: inline-flex;
+	gap: 6px;
+	margin-left: 8px;
+}
+
+.wte-dbg-action-tab {
+	background: none;
+	border: 1px solid var(--dbg-border);
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	padding: 3px 10px;
+	color: var(--dbg-text-muted);
+	line-height: 1.6;
+}
+
+.wte-dbg-action-tab:hover {
+	border-color: var(--dbg-accent);
+	color: var(--dbg-accent);
+}
+
+.wte-dbg-action-tab.is-active {
+	background: var(--dbg-accent);
+	border-color: var(--dbg-accent);
+	color: #fff;
+}
+
+.wte-dbg-action-tab.is-active[data-type="delete"] {
+	background: #d63638;
+	border-color: #d63638;
+}
+
+/* Separator between tabs and execute button in the action label */
+.wte-dbg-action-label-sep {
+	display: inline-block;
+	width: 1px;
+	height: 14px;
+	background: var(--dbg-text-muted);
+	opacity: 0.35;
+	vertical-align: middle;
+	margin: 0 4px;
+	flex-shrink: 0;
+}
+
+/* Execute UPDATE/DELETE button sits in the action label — compact size */
+.wte-dbg-action-label .wte-dbg-execute-btn {
+	font-size: 12px;
+	padding: 4px 12px;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+/* Dismiss (×) button — right edge of action label */
+.wte-dbg-action-dismiss {
+	margin-left: auto;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 1;
+	color: var(--dbg-text-dim);
+	padding: 0 2px;
+	flex-shrink: 0;
+}
+
+.wte-dbg-action-dismiss:hover {
+	color: #d63638;
+}
+
+.wte-dbg-action-warning {
+	display: none;
+	font-size: 12px;
+	color: #92400e;
+	background: #fef3c7;
+	border: 1px solid #f0c040;
+	border-radius: 3px;
+	padding: 5px 10px;
+}
+
+/* Execute button — base */
+.wte-dbg-execute-btn {
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 600;
+	padding: 5px 14px;
+	color: #fff;
+	flex-shrink: 0;
+}
+
+.wte-dbg-execute-btn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/* Add — blue */
+.wte-dbg-execute-add {
+	background: var(--dbg-accent);
+}
+
+.wte-dbg-execute-add:hover:not(:disabled) {
+	background: var(--dbg-accent-dark);
+}
+
+/* Update — orange */
+.wte-dbg-execute-update {
+	background: #d97706;
+}
+
+.wte-dbg-execute-update:hover:not(:disabled) {
+	background: #b45309;
+}
+
+/* Delete — red */
+.wte-dbg-execute-delete {
+	background: #d63638;
+}
+
+.wte-dbg-execute-delete:hover:not(:disabled) {
+	background: #a61717;
+}
+
+/* =========================================================================
+   Radio-selection column
+   ========================================================================= */
+
+.wte-dbg-radio-th {
+	width: 28px;
+	padding: 4px 6px;
+	text-align: center;
+}
+
+/* + button in the radio column header */
+.wte-dbg-add-row-btn {
+	background: none;
+	border: 1px solid var(--dbg-accent);
+	border-radius: 3px;
+	color: var(--dbg-accent);
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1;
+	padding: 1px 5px;
+}
+
+.wte-dbg-add-row-btn:hover {
+	background: var(--dbg-active-bg);
+	color: var(--dbg-accent-dark);
+}
+
+/* Execute INSERT button sits on the right of the action label */
+.wte-dbg-label-insert-btn {
+	margin-left: auto;
+	font-size: 11px;
+	padding: 3px 10px;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.wte-dbg-radio-td {
+	width: 28px;
+	padding: 4px 8px;
+	text-align: center;
+	cursor: default;
+	/* Override the copy cursor applied to all td elements */
+	cursor: default !important;
+}
+
+.wte-dbg-result-table tr.is-row-selected td {
+	background: var(--dbg-active-bg);
+}
+
+/* =========================================================================
+   Action row-indicator badge (inline in the label)
+   ========================================================================= */
+
+.wte-dbg-action-indicator {
+	display: none;
+	/* overridden by .is-row-visible below */
+	font-size: 11px;
+	font-family: "SFMono-Regular", Consolas, monospace;
+	font-weight: 600;
+	background: var(--dbg-active-bg);
+	border: 1px solid var(--dbg-accent);
+	border-radius: 3px;
+	padding: 1px 7px;
+	color: var(--dbg-accent-dark);
+	margin-left: 8px;
+	vertical-align: middle;
+	line-height: 1.6;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.wte-dbg-action-indicator.is-row-visible {
+	display: inline-block;
+}
+
+/* =========================================================================
+   Insert form (Add mode — result-table style with editable row)
+   ========================================================================= */
+
+/* Table cells in insert/update rows — override result-table td defaults */
+.wte-dbg-insert-table td,
+.wte-dbg-update-table td {
+	cursor: default !important;
+	padding: 2px 4px;
+	max-width: none;
+	overflow: visible;
+	text-overflow: clip;
+	white-space: normal;
+	vertical-align: top;
+	border-right: none;
+}
+
+.wte-dbg-update-table th {
+	vertical-align: top;
+}
+
+/* Editable row background — subtle tint so it reads as "editable" */
+.wte-dbg-insert-table tbody tr td,
+.wte-dbg-update-table tbody tr td {
+	background: rgba(34, 113, 177, 0.04);
+}
+
+.wte-dbg-insert-table tbody tr:hover td,
+.wte-dbg-update-table tbody tr:hover td {
+	background: rgba(34, 113, 177, 0.08);
+}
+
+/* Editable textareas — completely reset browser defaults, blend with cell */
+.wte-dbg-insert-input,
+.wte-dbg-update-input {
+	-webkit-appearance: none;
+	appearance: none;
+	display: block;
+	width: 100%;
+	min-width: 80px;
+	max-height: 200px;
+	box-sizing: border-box;
+	border: 0;
+	border-bottom: 1px solid rgba(34, 113, 177, 0.25);
+	background: transparent;
+	color: var(--dbg-text);
+	font-family: "SFMono-Regular", Consolas, monospace;
+	font-size: 12px;
+	line-height: 1.5;
+	padding: 3px 6px;
+	outline: none;
+	resize: none;
+	overflow: hidden;
+	min-height: 24px;
+	border-radius: 0;
+}
+
+.wte-dbg-insert-input {
+	min-width: 100px;
+}
+
+.wte-dbg-update-input {
+	min-width: 60px;
+	border: 1px solid rgba(34, 113, 177, 0.25);
+	border-radius: 3px;
+}
+
+.wte-dbg-insert-input:focus,
+.wte-dbg-update-input:focus {
+	border-bottom: 2px solid var(--dbg-accent);
+	background: var(--dbg-active-bg);
+	border-radius: 3px 3px 0 0;
+	resize: vertical;
+	overflow: auto;
+}
+
+.wte-dbg-update-input:focus {
+	border: 1px solid var(--dbg-accent);
+	border-bottom: 2px solid var(--dbg-accent);
+	border-radius: 3px;
+}
+
+.wte-dbg-insert-input::placeholder,
+.wte-dbg-update-input::placeholder {
+	color: var(--dbg-text-dim);
+	font-style: italic;
+}
+
+/* ---- Dark mode ---- */
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-insert-input,
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-update-input {
+	color: var(--dbg-text);
+	border-bottom-color: rgba(126, 184, 247, 0.2);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-update-input {
+	border-color: rgba(126, 184, 247, 0.2);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-insert-input:focus,
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-update-input:focus {
+	border-bottom-color: var(--dbg-accent);
+	background: #1e2d3d;
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-update-input:focus {
+	border-color: var(--dbg-accent);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-insert-table tbody tr td,
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-update-table tbody tr td {
+	background: rgba(126, 184, 247, 0.05);
+}
+
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-insert-table tbody tr:hover td,
+.wte-devzone-wrap.wte-dbg-dark .wte-dbg-update-table tbody tr:hover td {
+	background: rgba(126, 184, 247, 0.10);
+}
+
+/* Disabled state for collapsible toggle icons */
+.wte-dbg-filters-toggle-icon.is-toggle-disabled,
+.wte-dbg-action-toggle-icon.is-toggle-disabled {
+	opacity: 0.3;
+	pointer-events: none;
+	cursor: default;
+}
+
+/* Compact overrides for Run Query / Add Filter when in the filters label */
+.wte-dbg-filters-label .wte-dbg-run-btn,
+.wte-dbg-filters-label .wte-dbg-add-filter-btn {
+	font-size: 12px;
+	padding: 4px 12px;
+	text-transform: none;
+	letter-spacing: 0;
+	font-weight: 600;
+}
