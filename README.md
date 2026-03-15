@@ -34,6 +34,7 @@ Once activated, navigate to **Tools → Dev Zone** in WP Admin.
 | Bookings | View booking records and their metadata |
 | Payments | Inspect payment entries linked to bookings |
 | Customers | View customer records |
+| Logs | Browse the WordPress debug log with live-reload and line count |
 | Query | Full table browser — select any DB table, apply column filters, paginate results, and copy cell values with a single click |
 
 ## Query Tab
