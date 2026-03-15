@@ -3,7 +3,7 @@
  * Plugin Name: WP Travel Engine - Dev Zone
  * Plugin URI:  https://github.com/CodeSawMir
  * Description: Visual database inspector for WP Travel Engine — diagnose and fix data issues directly in WP Admin.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      Samir Shrestha
  * Text Domain: wptravelengine-devzone
  * Requires WP: 6.9
@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WPTE_DEVZONE_VERSION', '1.0.0' );
+define( 'WPTE_DEVZONE_VERSION', '1.1.0' );
 define( 'WPTE_DEVZONE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPTE_DEVZONE_URL', plugin_dir_url( __FILE__ ) );
 
