@@ -118,10 +118,13 @@ export class OverviewTab {
 			_ajax_nonce: nonce,
 		} );
 
+		DomHelper.setStatus( 'Loading\u2026', 'info' );
+
 		fetch( ajaxurl + '?' + params )
 			.then( ( r ) => r.json() )
 			.then( ( res ) => {
 				body.classList.remove( 'wte-dbg-skeleton' );
+				DomHelper.clearStatus();
 				if ( res.success ) {
 					DomHelper.setServerHtml( body, res.data.html );
 					DomHelper.applyRowStripes( body );
@@ -140,6 +143,7 @@ export class OverviewTab {
 			} )
 			.catch( () => {
 				body.classList.remove( 'wte-dbg-skeleton' );
+				DomHelper.clearStatus();
 				body.textContent = 'Request failed.';
 			} );
 	}

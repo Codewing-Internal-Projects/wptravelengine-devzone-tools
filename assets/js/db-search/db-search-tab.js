@@ -597,7 +597,7 @@ export class DbSearchTab {
 					window.wteDbgSetStatus?.( res.data.message, 'success', 2 );
 					this.runQuery( tableName, filters, limit, 0, resultsWrap );
 				} else {
-					window.wteDbgSetStatus?.( res.data?.message || 'Action failed.', 'error' );
+					window.wteDbgSetStatus?.( res.data?.message || 'Action failed.', 'error', 3 );
 				}
 			} )
 			.catch( ( e ) => {
@@ -605,7 +605,7 @@ export class DbSearchTab {
 					window.wteDbgSetStatus?.( 'Cancelled.', 'cancelled', 2 );
 					return;
 				}
-				window.wteDbgSetStatus?.( 'Request failed.', 'error' );
+				window.wteDbgSetStatus?.( 'Request failed.', 'error', 3 );
 			} )
 			.finally( () => {
 				executeBtn.disabled    = false;

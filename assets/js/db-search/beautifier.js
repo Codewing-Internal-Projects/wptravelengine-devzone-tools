@@ -64,7 +64,7 @@ export class Beautifier {
 
 		if (toggleBtn) {
 			toggleBtn.addEventListener('click', () => {
-				// If currently maximized, restore first then collapse.
+				// If currently maximized, just restore — do not also collapse.
 				if (wrap.classList.contains('unser-maximized')) {
 					wrap.classList.add('unser-restoring');
 					sidebar.addEventListener('animationend', () => {
@@ -73,11 +73,6 @@ export class Beautifier {
 							this.maximizeBtn.textContent = '\u2922'; // ⤢
 							this.maximizeBtn.title = 'Maximize';
 						}
-						wrap.classList.add('unser-collapsed');
-						toggleBtn.textContent = '\u2039'; // ‹
-						sidebar.dataset.savedWidth = sidebar.style.width;
-						sidebar.style.width = '';
-						try { localStorage.setItem(UNSER_KEY, '1'); } catch (e) { }
 					}, { once: true });
 					return;
 				}
@@ -174,6 +169,11 @@ export class Beautifier {
 		const varDumpBtn = wrap.querySelector('.wte-dbg-vardump-btn');
 		const outputEl = wrap.querySelector('.wte-dbg-unser-output');
 
+		const setButtonsDisabled = (disabled) => {
+			runBtn.disabled = disabled;
+			if (varDumpBtn) varDumpBtn.disabled = disabled;
+		};
+
 		// Beautify button
 		runBtn.addEventListener('click', () => {
 			const data = input.value.trim();
@@ -182,6 +182,8 @@ export class Beautifier {
 			Beautifier._unserCtrl?.abort();
 			Beautifier._unserCtrl = new AbortController();
 
+			setButtonsDisabled(true);
+			window.wteDbgSetStatus?.('Processing\u2026', 'info');
 			outputEl.textContent = 'Processing\u2026';
 
 			const body = new URLSearchParams({
@@ -192,13 +194,19 @@ export class Beautifier {
 
 			fetch(this.ajaxurl, { method: 'POST', body, signal: Beautifier._unserCtrl.signal })
 				.then((r) => r.json())
-				.then((res) => this.renderResult(res))
+				.then((res) => {
+					this.renderResult(res);
+					window.wteDbgClearStatus?.();
+				})
 				.catch((e) => {
 					if (e.name === 'AbortError') {
 						window.wteDbgSetStatus?.('Cancelled \u2014 unserialize', 'cancelled');
 						return;
 					}
-					outputEl.textContent = 'Request failed.';
+					window.wteDbgSetStatus?.('Request failed.', 'error', 3);
+				})
+				.finally(() => {
+					setButtonsDisabled(false);
 				});
 		});
 
@@ -211,6 +219,8 @@ export class Beautifier {
 				Beautifier._varDumpCtrl?.abort();
 				Beautifier._varDumpCtrl = new AbortController();
 
+				setButtonsDisabled(true);
+				window.wteDbgSetStatus?.('Processing\u2026', 'info');
 				outputEl.textContent = 'Processing\u2026';
 
 				const body = new URLSearchParams({
@@ -221,13 +231,19 @@ export class Beautifier {
 
 				fetch(this.ajaxurl, { method: 'POST', body, signal: Beautifier._varDumpCtrl.signal })
 					.then((r) => r.json())
-					.then((res) => this.renderResult(res))
+					.then((res) => {
+						this.renderResult(res);
+						window.wteDbgClearStatus?.();
+					})
 					.catch((e) => {
 						if (e.name === 'AbortError') {
 							window.wteDbgSetStatus?.('Cancelled \u2014 var_dump', 'cancelled');
 							return;
 						}
-						outputEl.textContent = 'Request failed.';
+						window.wteDbgSetStatus?.('Request failed.', 'error', 3);
+					})
+					.finally(() => {
+						setButtonsDisabled(false);
 					});
 			});
 		}
